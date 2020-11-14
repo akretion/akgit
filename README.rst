@@ -25,6 +25,10 @@ Clone
 - Use git-autoshare
 
 
+Fetch
+~~~~~~~~~
+
+- Before fetch check if the remote exist and if not add it automatically. (You can use alias for following company: ak=>akretion, c2c=>camptocamp, acs=>acsone
 
 Install
 ---------

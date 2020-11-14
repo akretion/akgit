@@ -8,6 +8,12 @@ args = sys.argv
 
 PROTECTED = ["oca", "shopinvader"]
 
+REMOTE_ALIAS = {
+    "ak": "akretion",
+    "c2c": "camptocamp",
+    "acs": "acsone",
+    }
+
 def get_root_dir(path=None):
     if path is None:
         path = Path(".").resolve()
@@ -20,14 +26,15 @@ def get_repo():
     path = get_root_dir()
     return Repo(str(path))
 
-def ensure_remote_akretion():
+def ensure_remote(remote_name):
     repo = get_repo()
     for remote in repo.remotes:
-        if remote.name == "ak":
+        if remote.name == remote_name:
             return
     origin = repo.remotes[0].url.split("/")[-2]
-    akretion_url = repo.remotes[0].url.replace(origin, "akretion")
-    repo.create_remote("ak", akretion_url)
+    remote_org = REMOTE_ALIAS.get(remote_name, remote_name)
+    remote_url = repo.remotes[0].url.replace(origin, remote_org)
+    repo.create_remote(remote_name, remote_url)
 
 def ensure_no_protected_push(remote_name):
     repo = get_repo()
@@ -42,10 +49,8 @@ def check_push(args):
         org = args[2]
     else:
         org = "origin"
-    if org == "ak":
-        ensure_remote_akretion()
-    else:
-        ensure_no_protected_push(org)
+    ensure_no_protected_push(org)
+    ensure_remote(org)
 
 def check_commit(args):
     path = get_root_dir()
@@ -53,6 +58,10 @@ def check_commit(args):
     if (path / ".pre-commit-config.yaml").exists()\
             and not (path / ".git" / "hooks" / "pre-commit").exists():
         subprocess.run(["pre-commit", "install"])
+
+def check_fetch(args):
+    if len(args) > 2:
+        ensure_remote(args[2])
 
 
 def main():
@@ -64,4 +73,6 @@ def main():
             check_push(args)
         elif args[1] == "commit":
             check_commit(args)
+        elif args[1] == "fetch":
+            check_fetch(args)
         subprocess.run(["/usr/bin/git"] + args[1:])
