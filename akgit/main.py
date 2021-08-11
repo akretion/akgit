@@ -31,9 +31,9 @@ def ensure_remote(remote_name):
     for remote in repo.remotes:
         if remote.name == remote_name:
             return
-    origin = repo.remotes[0].url.split("/")[-2]
-    remote_org = REMOTE_ALIAS.get(remote_name, remote_name)
-    remote_url = repo.remotes[0].url.replace(origin, remote_org)
+    remote_split_url = repo.remotes[0].url.split("/")
+    remote_split_url[-2] = REMOTE_ALIAS.get(remote_name, remote_name)
+    remote_url = "/".join(remote_split_url)
     repo.create_remote(remote_name, remote_url)
 
 def ensure_no_protected_push(remote_name):
