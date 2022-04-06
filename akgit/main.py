@@ -1,7 +1,13 @@
 #!/bin/python3
 
+
 import sys
 import subprocess
+
+# Force git path before calling importing git
+import os
+os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = "/usr/bin/git"
+
 from git import Repo
 from pathlib import Path
 args = sys.argv
@@ -66,8 +72,7 @@ def check_fetch(args):
 
 def main():
     if args[1] == "clone":
-        print("Auto-share")
-        subprocess.run(["/usr/bin/git", "autoshare-clone"] + args[2:])
+        subprocess.run(["/usr/bin/git", "autoshare-clone"] + args[2:], check=True)
     else:
         if args[1] == "push":
             check_push(args)
@@ -75,4 +80,4 @@ def main():
             check_commit(args)
         elif args[1] == "fetch":
             check_fetch(args)
-        subprocess.run(["/usr/bin/git"] + args[1:])
+        subprocess.run(["/usr/bin/git"] + args[1:], check=True)
