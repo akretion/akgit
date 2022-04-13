@@ -51,10 +51,13 @@ def ensure_no_protected_push(remote_name):
                 raise Exception("No direct push to %s" % org)
 
 def check_push(args):
-    if len(args) >= 3:
+    if len(args) >= 3 and args[2][0:2] != '--':
         org = args[2]
-    else:
+    elif len(args) == 2:
         org = "origin"
+    else:
+        # complex push cmd we do nothing, just use git
+        return
     ensure_no_protected_push(org)
     ensure_remote(org)
 
@@ -75,9 +78,14 @@ def main():
         subprocess.run(["/usr/bin/git", "autoshare-clone"] + args[2:], check=True)
     else:
         if args[1] == "push":
+            for key in ["-f", "--force"]:
+                if key in args:
+                    idx = args.index(key)
+                    print("Replace --force by --force-with-lease")
+                    args[idx] = "--force-with-lease"
             check_push(args)
         elif args[1] == "commit":
             check_commit(args)
         elif args[1] == "fetch":
             check_fetch(args)
-        subprocess.run(["/usr/bin/git"] + args[1:], check=True)
+        os.execv("/usr/bin/git", ['/usr/bin/git'] + args[1:])
