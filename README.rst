@@ -1,4 +1,4 @@
-Git helper for akretion
+akgit: Git helper for akretion
 =========================
 
 Description

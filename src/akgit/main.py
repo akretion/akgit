@@ -75,6 +75,7 @@ def check_fetch(args):
 
 def main():
     if args[1] == "clone":
+        print("Autoshare")
         subprocess.run(["/usr/bin/git", "autoshare-clone"] + args[2:], check=True)
     else:
         if args[1] == "push":
