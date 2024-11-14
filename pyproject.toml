@@ -34,6 +34,9 @@ Homepage = "https://github.com/akretion/akgit"
 Source = "https://github.com/akretion/akgit"
 
 [project.scripts]
+supergit = "akgit.main:main"
+sgit = "akgit.main:main"
+git = "akgit.main:main"
 
 [tool.hatch.version]
 source = "vcs"

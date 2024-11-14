@@ -20,6 +20,13 @@ REMOTE_ALIAS = {
     "acs": "acsone",
     }
 
+AUTO_ADD_REMOTE = [
+    "akretion",
+    "camptocamp",
+    "acsone",
+    "oca",
+    ]
+
 def get_root_dir(path=None):
     if path is None:
         path = Path(".").resolve()
@@ -40,7 +47,8 @@ def ensure_remote(remote_name):
     remote_split_url = repo.remotes[0].url.split("/")
     remote_split_url[-2] = REMOTE_ALIAS.get(remote_name, remote_name)
     remote_url = "/".join(remote_split_url)
-    repo.create_remote(remote_name, remote_url)
+    if remote_name in AUTO_ADD_REMOTE:
+        repo.create_remote(remote_name, remote_url)
 
 def ensure_no_protected_push(remote_name):
     repo = get_repo()
@@ -74,6 +82,10 @@ def check_fetch(args):
 
 
 def main():
+    cmd = args[0].split("/")[-1]
+    if cmd in ["sgit", "supergit"]:
+        print("Call native git without hack")
+        os.execv("/usr/bin/git", ['/usr/bin/git'] + args[1:])
     if args[1] == "clone":
         print("Autoshare")
         subprocess.run(["/usr/bin/git", "autoshare-clone"] + args[2:], check=True)
