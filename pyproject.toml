@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
 ]
-readme = "README.md"
+readme = "README.rst"
 dependencies = [
     "git-autoshare",
     "gitPython",
