@@ -33,15 +33,22 @@ Fetch
 Install
 ---------
 
+.. code-block:: shell
+
+   pipx install git+https://github.com/akretion/akgit --force --include-deps
+
+
+Configure git-autoshare
+-------------------------
+
+Edit the file .config/git-autoshare/repos.yml and put the following content
 
 .. code-block:: shell
 
-   pipx install -e . --force --include-deps
-
-
-Then add an alias for mapping into bashrc
-
-
-.. code-block:: shell
-
-   alias git='akgit'
+   github.com:
+       "*":
+           orgs:
+               - odoo
+               - OCA
+               - akretion
+           private: True
