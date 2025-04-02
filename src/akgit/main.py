@@ -21,6 +21,9 @@ REMOTE_ALIAS = {
     }
 
 AUTO_ADD_REMOTE = [
+    "ak",
+    "c2c",
+    "acs",
     "akretion",
     "camptocamp",
     "acsone",
