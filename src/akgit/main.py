@@ -12,10 +12,9 @@ from pathlib import Path
 
 from git import Repo
 
-
 args = sys.argv
 
-PROTECTED = ["oca", "shopinvader"]
+PROTECTED = ["github.com/oca", "github.com/shopinvader"]
 
 REMOTE_ALIAS = {
     "ak": "akretion",
@@ -64,9 +63,9 @@ def ensure_no_protected_push(remote_name):
     repo = get_repo()
     for remote in repo.remotes:
         if remote.name == remote_name:
-            org = remote.url.lower().split("/")[-2]
-            if org in PROTECTED:
-                raise Exception("No direct push to %s" % org)
+            for org in PROTECTED:
+                if org in remote.url:
+                    raise Exception(f"No direct push to {org}")
 
 
 def check_push(args):
