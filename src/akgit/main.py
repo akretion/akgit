@@ -64,7 +64,7 @@ def ensure_no_protected_push(remote_name):
     for remote in repo.remotes:
         if remote.name == remote_name:
             for org in PROTECTED:
-                if org in remote.url:
+                if org in remote.url.lower():
                     raise Exception(f"No direct push to {org}")
 
 
