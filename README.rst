@@ -30,6 +30,21 @@ Fetch
 
 - Before fetch check if the remote exist and if not add it automatically. (You can use alias for following company: ak=>akretion, c2c=>camptocamp, acs=>acsone
 
+The list of auto add remote are the following see here:
+
+```
+AUTO_ADD_REMOTE = [
+    "ak",
+    "c2c",
+    "acs",
+    "akretion",
+    "camptocamp",
+    "acsone",
+    "oca",
+]
+```
+
+
 Install
 ---------
 

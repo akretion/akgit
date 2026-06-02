@@ -52,7 +52,7 @@ def ensure_remote(remote_name):
     for remote in repo.remotes:
         if remote.name == remote_name:
             return
-    remote_split_url = repo.remotes[0].url.split("/")
+    remote_split_url = repo.remotes[0].url.strip("/").split("/")
     remote_split_url[-2] = REMOTE_ALIAS.get(remote_name, remote_name)
     remote_url = "/".join(remote_split_url)
     if remote_name in AUTO_ADD_REMOTE:
